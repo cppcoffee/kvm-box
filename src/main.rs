@@ -80,12 +80,7 @@ fn main() -> Result<()> {
 }
 
 fn print_version() {
-    println!(
-        "{} {}",
-        std::env!("CARGO_PKG_NAME"),
-        std::env!("CARGO_PKG_VERSION")
-    );
-
+    println!("kvm-box {}", std::env!("CARGO_PKG_VERSION"));
     println!("{}\n", std::env!("CARGO_PKG_DESCRIPTION"));
     println!("Written by {}", std::env!("CARGO_PKG_AUTHORS"));
 }

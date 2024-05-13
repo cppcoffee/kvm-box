@@ -1,3 +1,4 @@
+use std::env;
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
@@ -31,6 +32,12 @@ struct Args {
 }
 
 fn main() -> Result<()> {
+    if option_env!("RUST_LOG").is_none() {
+        env::set_var("RUST_LOG", "info");
+    }
+
+    env_logger::init();
+
     // We need this so that we can reset terminal to canonical mode if panic occurs.
     let stdin = std::io::stdin();
 

@@ -1,5 +1,6 @@
 use anyhow::{Context, Result};
 use kvm_ioctls::{Kvm, VcpuExit, VcpuFd, VmFd};
+use log::{error, info};
 use vm_memory::GuestMemoryMmap;
 use vm_superio::Trigger;
 use vmm_sys_util::{poll::PollContext, terminal::Terminal};
@@ -102,7 +103,7 @@ impl Vmm {
             for ev in events.iter_readable() {
                 match ev.token() {
                     0 => {
-                        println!("vcpu stopped, main loop exit");
+                        info!("vcpu stopped, main loop exit");
                         return Ok(());
                     }
                     1 => {
@@ -120,7 +121,7 @@ impl Vmm {
                                     .expect("enqueue bytes failed");
                             }
                             Err(e) => {
-                                println!("error while reading stdin: {:?}", e);
+                                error!("error while reading stdin: {:?}", e);
                             }
                         }
                     }
@@ -153,27 +154,27 @@ impl Vmm {
                                 pio_bus.write(addr.into(), data);
                             }
                             VcpuExit::MmioRead(_, _) => {
-                                println!("mmio read");
+                                info!("mmio read");
                             }
                             VcpuExit::MmioWrite(_, _) => {
-                                println!("mmio write");
+                                info!("mmio write");
                             }
                             VcpuExit::Hlt => {
-                                println!("KVM_EXIT_HLT");
+                                info!("KVM_EXIT_HLT");
                                 break;
                             }
                             VcpuExit::Shutdown => {
-                                println!("KVM_EXIT_SHUTDOWN");
+                                info!("KVM_EXIT_SHUTDOWN");
                                 break;
                             }
                             r => {
-                                println!("KVM_EXIT: {:?}", r);
+                                info!("KVM_EXIT: {:?}", r);
                                 break;
                             }
                         },
 
                         Err(e) => {
-                            println!("vm run error: {:?}", e);
+                            error!("vm run error: {:?}", e);
                             break;
                         }
                     }

@@ -10,10 +10,11 @@ authors = ["Sharp Liu <cppcoffee@gmail.com>"]
 [dependencies]
 anyhow = "1.0.81"
 argh = "0.1.12"
+log = "0.4.21"
+env_logger = "0.11.3"
 kvm-bindings = "0.7.0"
 kvm-ioctls = "0.16.0"
 linux-loader = { version = "0.11.0", features = ["bzimage"] }
-log = "0.4.21"
 vm-memory = { version = "0.14.1", features = ["backend-mmap"] }
 vm-superio = "0.8.0"
 vmm-sys-util = "0.12.1"
